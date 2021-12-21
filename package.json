@@ -1,0 +1,14 @@
+{
+  "name": "@codexporer.io/fluent-ui-message-dialog",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "peerDependencies": {
+    "react": "*",
+    "styled-components": "*",
+    "lodash": "*",
+    "@fluentui/react": "*",
+    "@fluentui/react-icons-mdl2": "*",
+    "react-magnetic-di": "*",
+    "react-sweet-state": "*"
+  }
+}
