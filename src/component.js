@@ -22,7 +22,7 @@ const getColor = ({ type, colors }) => ({
     [MESSAGE_DIALOG_TYPE.error]: colors.error
 })[type];
 
-const Dialog = styled(Modal)`
+export const Dialog = styled(Modal)`
     & > div.ms-Dialog-main {
         display: flex;
         flex-flow: column nowrap;
@@ -41,7 +41,7 @@ const Dialog = styled(Modal)`
     }
 `;
 
-const Header = styled.div`
+export const Header = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -51,7 +51,7 @@ const Header = styled.div`
     color: ${({ type, theme }) => getColor({ type, colors: theme.colors })};
 `;
 
-const Title = styled.span`
+export const Title = styled.span`
     flex: 1 1 auto;
     display: flex;
     align-items: center;
@@ -59,13 +59,13 @@ const Title = styled.span`
     margin-left: ${({ type }) => type !== MESSAGE_DIALOG_TYPE.none ? '10px' : 0};
 `;
 
-const Body = styled.div`
+export const Body = styled.div`
     flex: 4 4 auto;
     padding: 0 24px 24px 24px;
     overflowY: hidden;
 `;
 
-const Actions = styled.div`
+export const Actions = styled.div`
     display: flex;
     justify-content: flex-end;
     padding: 0 24px 24px 24px;
@@ -75,35 +75,42 @@ const Actions = styled.div`
     }
 `;
 
-const StyledInfoIcon = styled(InfoIcon)`
+export const StyledInfoIcon = styled(InfoIcon)`
     color: ${({ theme }) => getColor({ type: MESSAGE_DIALOG_TYPE.info, colors: theme.colors })};
     margin-top: 3px;
 `;
 
-const StyledWarningIcon = styled(WarningIcon)`
+export const StyledWarningIcon = styled(WarningIcon)`
     color: ${({ theme }) => getColor({ type: MESSAGE_DIALOG_TYPE.warning, colors: theme.colors })};
     margin-top: 3px;
 `;
 
-const StyledErrorIcon = styled(ErrorBadgeIcon)`
+export const StyledErrorIcon = styled(ErrorBadgeIcon)`
     color: ${({ theme }) => getColor({ type: MESSAGE_DIALOG_TYPE.error, colors: theme.colors })};
     margin-top: 3px;
 `;
 
-const iconsMap = {
-    // eslint-disable-next-line lodash/prefer-constant
-    [MESSAGE_DIALOG_TYPE.none]: () => null,
+const iconsMap = ({
+    StyledInfoIcon,
+    StyledWarningIcon,
+    StyledErrorIcon
+}) => ({
     [MESSAGE_DIALOG_TYPE.info]: StyledInfoIcon,
     [MESSAGE_DIALOG_TYPE.warning]: StyledWarningIcon,
     [MESSAGE_DIALOG_TYPE.error]: StyledErrorIcon
-};
+});
 
 export const MessageDialog = () => {
     di(
         Actions,
         Body,
+        DefaultButton,
         Dialog,
         Header,
+        PrimaryButton,
+        StyledErrorIcon,
+        StyledInfoIcon,
+        StyledWarningIcon,
         Title,
         useMessageDialog
     );
@@ -115,7 +122,11 @@ export const MessageDialog = () => {
         type,
         actions
     }, { close }] = useMessageDialog();
-    const Icon = iconsMap[type];
+    const Icon = iconsMap({
+        StyledInfoIcon,
+        StyledWarningIcon,
+        StyledErrorIcon
+    })[type];
 
     return (
         <Dialog
